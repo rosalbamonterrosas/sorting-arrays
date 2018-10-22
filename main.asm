@@ -36,13 +36,13 @@ ARY2S		.set	0x0230			;Memory allocation 	AR2S
 
 SORT1		mov.w	#ARY1,	R4		;Initialize R4 to point to ARY1  in the memory
 			mov.w	#ARY1S,	R6		;Initialize R6 to point to ARY1S in the memory where the sorted ARY1 will be stored
-			call	#ArraySetup1	;Create elements are store them in ARY1
+			call	#ArraySetup1	;Create elements and store them in ARY1
 			call 	#COPY			;Copy the elements from the ARY1 space to ARY1S space
 			call	#SORT			;Calling Subroutine Sort with parameter passing in R4 abd R6
 
 SORT2		mov.w	#ARY2,	R4		;Initialize R4 to point to ARY2  in the memory
 			mov.w	#ARY2S,	R6		;Initialize R6 to point to ARY2S in the memory where the sorted ARY2 will be stored
-			call	#ArraySetup2	;Create elements are store them in ARY2
+			call	#ArraySetup2	;Create elements and store them in ARY2
 			call 	#COPY			;Copy the elements from the ARY2 space to ARY1S space
 			call	#SORT			;Calling Subroutine Sort with parameter passing in R4 abd R6
 
@@ -88,8 +88,7 @@ LP			mov.b	@R5+, 0(R7)		;copy elements using R5/R7 as pointers
 			ret
 
 ;Sort the copy of Array saved in the allocated Array-Sorted space, while keeping original Array unchanged
-;replace the following two lines with your actual sorting algorithm.
-;Sort the copy of Array saved in the allocated Array-Sorted sapce, while keeping original Array unchanged
+
 SORT		clr.w R7
 			mov.b @R6, R5
 			dec R5
@@ -109,20 +108,6 @@ skip		dec R8
 			dec R5
 			jnz firstlp
 			ret
-;To bubble sort, you need to scan the array n-1 times,
-;In every scan, you compare from top down each two consecutive elements, and you swap them if they are not in ascending order.
-;Notice that in the first scan you get the largest element (no matter where it is in the array) pushed all the way to the bottom.
-;So your next scan should be n-1 iterations, and then n-2 and so on.
-;So every time you come back to the top of the array for a new scan, your n (the number of comparisons) must be decremented by 1.
-;In the last scan, you need only one comparison.
-;Hints:
-;Your sorting algorithm starts with R6 as a pointer to the array
-;you need to save n (number of elements) in R8, then decrement it by 1 (n-1) to become the number of comparisons.
-;Copy R6 to R7 so you keep R6 unchanged as it points to the top of the array for every new scan.
-;Copy n-1 to R9 and use R9 as a loop counter, while keeping the current n-1 value in R8 for the next scan.
-;In the scan loop get an element and auto increment pointer R7, then get next element without changing R7.
-;Compare the two elements, if not in ascending order, swap them.
-;Repeat the scan from the top as pointed to by (R6), and every time decrement the number of comparisons (R8).
 
 ;-------------------------------------------------------------------------------
 ; Stack Pointer definition
